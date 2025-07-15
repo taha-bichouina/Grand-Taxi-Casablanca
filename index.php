@@ -37,128 +37,158 @@ foreach ($lines as $line) {
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css"
   />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-      color: #2c3e50;
-      min-height: 100vh;
-    }
-    .header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 1rem 2rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-    }
-    .header p {
-      color: #555;
-    }
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .sidebar {
-      flex: 1 1 320px;
-      background: white;
-      border-radius: 15px;
-      padding: 1.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      position: relative;
-      max-height: 600px;
-      overflow-y: auto;
-    }
-    .map-container {
-      flex: 2 1 600px;
-      border-radius: 15px;
-      overflow: hidden;
-      height: 600px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-    #map {
-      width: 100%;
-      height: 100%;
-    }
-    .search-input {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-    .search-input:focus {
-      outline: none;
-      border-color: #5dade2;
-      box-shadow: 0 0 5px rgba(93, 173, 226, 0.4);
-    }
-    .suggestions {
-      position: absolute;
-      z-index: 999;
-      width: calc(100% - 3rem);
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-    .suggestion-item {
-      padding: 0.8rem;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-    }
-    .suggestion-item:hover {
-      background: #f9f9f9;
-    }
-    .route-item {
-      background: #fdfdfd;
-      padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      border-left: 4px solid #5dade2;
-      margin-bottom: 1rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .route-item:hover {
-      background: #f9f9f9;
-      transform: scale(1.02);
-    }
-    .filter-btn {
-      padding: 0.6rem 1rem;
-      border-radius: 20px;
-      margin: 0.3rem 0.2rem 0.3rem 0;
-      background: #5dade2;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: #3498db;
-    }
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .map-container {
-        height: 400px;
-      }
-      .sidebar {
-        max-height: none;
-      }
-    }
-  </style>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #0c1a2b;
+    color: #f1f5f9;
+  }
+
+  .header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #162740;
+    border-bottom: 2px solid #23344e;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    animation: fadeInDown 1s ease;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    padding: 1rem;
+    background-color: #131f36;
+    border-right: 2px solid #23344e;
+    animation: fadeInLeft 0.8s ease;
+  }
+
+  .map-container {
+    flex: 3;
+    padding: 1rem;
+    animation: fadeIn 1.2s ease;
+  }
+
+  #map {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #29497c;
+    border-radius: 10px;
+  }
+
+  .search-section h3,
+  .route-list h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #66aaff;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: #1f2d41;
+    border: 1px solid #29497c;
+    color: #f1f5f9;
+    transition: border-color 0.3s;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #3388ff;
+  }
+
+  .filter-btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #3388ff;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .filter-btn:hover {
+    background-color: #1d70d1;
+  }
+
+  .route-item {
+    background-color: #1f2d41;
+    border-left: 6px solid #3388ff;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+
+  .route-item:hover {
+    transform: translateX(4px);
+    background-color: #23344e;
+  }
+
+  .suggestions {
+    position: absolute;
+    background-color: #1f2d41;
+    border: 1px solid #29497c;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    width: 100%;
+  }
+
+  .suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #29497c;
+    transition: background-color 0.3s;
+  }
+
+  .suggestion-item:hover {
+    background-color: #29497c;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+  }
+
+  @keyframes fadeInLeft {
+    from { transform: translateX(-30px); opacity: 0 }
+    to { transform: translateX(0); opacity: 1 }
+  }
+
+  @keyframes fadeInDown {
+    from { transform: translateY(-20px); opacity: 0 }
+    to { transform: translateY(0); opacity: 1 }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { flex-direction: column }
+    .sidebar { border-right: none; border-bottom: 2px solid #23344e }
+  }
+</style>
 </head>
 <body>
   <div class="header">
@@ -187,7 +217,7 @@ foreach ($lines as $line) {
           />
           <div id="endSuggestions" class="suggestions"></div>
         </div>
-        <button class="filter-btn" onclick="searchRouteFromInputs()">
+        <button class="filter-btn" onclick="searchRouteFromInputs()" font-family:  sans-serif>
           Rechercher
         </button>
         <button class="filter-btn" onclick="useCurrentLocation()">
